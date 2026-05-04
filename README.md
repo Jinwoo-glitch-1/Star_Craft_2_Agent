@@ -1,4 +1,3 @@
-```markdown
 <div align="center">
 
 # 🌌 StarCraft II AI Agent Pipeline
@@ -59,7 +58,6 @@ Star_Craft_2_Agent/
     ├── game_reader.py        # [Step 1 & 2] Extracts raw state & calculates derived metrics
     ├── feature_scaler.py     # [Step 3] Custom Min-Max scaler tuned for SC2 macro bounds
     └── data_pipeline.py      # [Step 4] Pipeline orchestrator outputting final AI tensors
-```
 
 ---
 
