@@ -30,7 +30,7 @@
 
 ## 🎯 About The Project
 
-This project provides a foundational Python-based AI agent for StarCraft II. Rather than relying on hardcoded rule-based scripts, this repository focuses on building a **robust data pipeline**. It extracts real-time game state information, engineers advanced time-series features, and normalizes them into clean, standardized tensors. 
+This project provides a foundational Python-based AI agent for StarCraft II. Rather than relying on hardcoded rule-based scripts, this repository focuses on building a **robust data pipeline**. It extracts real-time game state information, engineers advanced time-series features, and normalizes them into clean, standardized tensors.
 
 This environment is purpose-built to feed directly into **Reinforcement Learning (RL)** or **Deep Learning (LSTM)** models via PyTorch, effectively translating complex SC2 macro-mechanics into machine-readable mathematical formats.
 
@@ -50,6 +50,7 @@ This environment is purpose-built to feed directly into **Reinforcement Learning
 ---
 
 ## 🏗 System Architecture
+
 ```text
 Star_Craft_2_Agent/
 ├── main.py                   # Main entry point to initialize the bot and environment
@@ -58,6 +59,7 @@ Star_Craft_2_Agent/
     ├── game_reader.py        # [Step 1 & 2] Extracts raw state & calculates derived metrics
     ├── feature_scaler.py     # [Step 3] Custom Min-Max scaler tuned for SC2 macro bounds
     └── data_pipeline.py      # [Step 4] Pipeline orchestrator outputting final AI tensors
+```
 
 ---
 
@@ -67,28 +69,27 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 ### Prerequisites
 
-*   **Python:** Version 3.7 or higher.
-*   **StarCraft II:** A local installation of [StarCraft II](https://starcraft2.blizzard.com/).
-*   **Maps:** Ensure the official StarCraft II Map Packs are installed (specifically, the `Simple64` map must be available in your `Maps` directory).
+- **Python:** Version 3.7 or higher.
+- **StarCraft II:** A local installation of [StarCraft II](https://starcraft2.blizzard.com/).
+- **Maps:** Ensure the official StarCraft II Map Packs are installed (specifically, the `Simple64` map must be available in your `Maps` directory).
 
 ### Installation
 
 1. Clone the repository:
-   ```bash
-   git clone [https://github.com/your-username/Star_Craft_2_Agent.git](https://github.com/your-username/Star_Craft_2_Agent.git)
+```bash
+   git clone https://github.com/your-username/Star_Craft_2_Agent.git
    cd Star_Craft_2_Agent
-   ```
+```
 
 2. Create a virtual environment (Recommended):
-   ```bash
+```bash
    python -m venv venv
    source venv/bin/activate  # On Windows use: venv\Scripts\activate
-   ```
+```
 
 3. Install required packages:
-   ```bash
+```bash
    pip install -r requirements.txt
-   
 ```
 
 ---
@@ -96,6 +97,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 ## 💻 Usage
 
 ### Running the Bot
+
 To start a local game with the bot (currently configured to play as Protoss against a Very Easy Terran AI), execute the main script:
 
 ```bash
@@ -103,6 +105,7 @@ python main.py
 ```
 
 ### Integrating the Pipeline for ML
+
 If you are expanding the `MinimalBot` in `main.py` to train an ML/RL model, you can seamlessly plug the pipeline into your bot's `on_step` loop:
 
 ```python
@@ -123,10 +126,10 @@ class MyRLBot(BotAI):
         if iteration % 10 == 0:
             # 1. Get the scaled tensor
             ai_input_array = get_final_ai_input(self, self.extractor, self.scaler)
-            
+
             # 2. Convert to PyTorch Tensor
             input_tensor = torch.tensor(ai_input_array, dtype=torch.float32)
-            
+
             # 3. Feed forward to your model
             # prediction = self.model(input_tensor)
 ```
@@ -146,12 +149,12 @@ class MyRLBot(BotAI):
 ---
 
 ## 🤝 Acknowledgments
-* Built utilizing the highly capable [python-sc2 / burnysc2](https://github.com/BurnySc2/python-sc2) wrapper.
-* Inspired by AI advancements in real-time strategy environments.
+
+- Built utilizing the highly capable [python-sc2 / burnysc2](https://github.com/BurnySc2/python-sc2) wrapper.
+- Inspired by AI advancements in real-time strategy environments.
+
+---
 
 <div align="center">
   <i>Built with ❤️ for AI & RTS Enthusiasts.</i>
 </div>
-```
-
-```
