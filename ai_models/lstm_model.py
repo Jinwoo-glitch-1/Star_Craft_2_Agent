@@ -1,24 +1,21 @@
 import torch
 import torch.nn as nn
+import torch.optim as optim
 
-class StarvationLSTM(nn.Module):
+# ==========================================
+# TASK 4.1: Building the Model Architecture
+# ==========================================
+class ResourcePredictor(nn.Module):
     def __init__(self, input_size, hidden_size=64, num_layers=2, dropout_rate=0.2):
         """
-        TASK 4.1: Building the Model Architecture
-        
-        Args:
-            input_size: Number of features extracted per step (e.g., 8).
-            hidden_size: Number of neurons in the hidden layers.
-            num_layers: Number of stacked LSTM layers.
-            dropout_rate: Prevents overfitting by randomly turning off neurons.
+        Architecture: LSTM -> Fully Connected Layers (No Sigmoid for Regression)
         """
-        super(StarvationLSTM, self).__init__()
+        super(ResourcePredictor, self).__init__()
         
         self.hidden_size = hidden_size
         self.num_layers = num_layers
         
-        # 1. LSTM Layer
-        # batch_first=True makes sure the input shape is (Batch, Seq, Features)
+        # 1. LSTM Layer to extract temporal features
         self.lstm = nn.LSTM(
             input_size=input_size, 
             hidden_size=hidden_size, 
@@ -27,54 +24,45 @@ class StarvationLSTM(nn.Module):
             dropout=dropout_rate if num_layers > 1 else 0
         )
         
-        # 2. Fully Connected Layer
-        # Takes the output of the LSTM and squashes it down to 1 output node
-        self.fc = nn.Linear(hidden_size, 1)
-        
-        # 3. Activation Function
-        # Sigmoid converts the raw output number into a probability between 0.0 and 1.0
-        self.sigmoid = nn.Sigmoid()
+        # 2. Fully Connected Layers
+        self.fc1 = nn.Linear(hidden_size, 32)
+        self.relu = nn.ReLU()
+        # Output layer for continuous numerical value (Regression)
+        self.fc2 = nn.Linear(32, 1) 
 
     def forward(self, x):
-        """
-        Defines how the data flows through the network.
-        x shape expected: (batch_size, sequence_length=60, features)
-        """
-        # Initialize hidden state (h0) and cell state (c0) with zeros
-        # These act as the "memory" of the network
-        h0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(x.device)
-        c0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(x.device)
-        
-        # Forward propagate through LSTM
-        # 'out' contains the outputs for EVERY time step in the sequence
-        out, (hn, cn) = self.lstm(x, (h0, c0))
-        
-        # We only care about the prediction at the LAST time step (T=60)
-        # So we slice the tensor to get: out[:, -1, :]
+        out, _ = self.lstm(x)
         last_time_step_out = out[:, -1, :]
         
-        # Pass the last time step's output through the fully connected layer
-        dense_out = self.fc(last_time_step_out)
-        
-        # Apply Sigmoid to get the final probability score
-        final_prediction = self.sigmoid(dense_out)
+        dense1 = self.fc1(last_time_step_out)
+        activated = self.relu(dense1)
+        final_prediction = self.fc2(activated) 
         
         return final_prediction
 
 # ==========================================
-# Test the Architecture
+# TASK 4.2: Defining the cost function and optimizer
+# ==========================================
+def setup_training(model, learning_rate=0.001):
+    """
+    Using MSELoss for numerical prediction and AdamW optimizer.
+    """
+    # Cost Function: Mean Squared Error
+    criterion = nn.MSELoss()
+    
+    # Optimizer: AdamW
+    optimizer = optim.AdamW(model.parameters(), lr=learning_rate)
+    
+    return criterion, optimizer
+
+# ==========================================
+# Test the Setup
 # ==========================================
 if __name__ == "__main__":
-    # Simulate a fake batch of data just to test if the model works
-    # Batch=32 games, Sequence=60 steps, Features=8
-    fake_data = torch.rand(32, 60, 8) 
+    model = ResourcePredictor(input_size=8)
+    loss_fn, optimizer = setup_training(model)
     
-    # Initialize the model
-    model = StarvationLSTM(input_size=8)
-    
-    # Pass data through the model
-    predictions = model(fake_data)
-    
-    print(f"Input Shape: {fake_data.shape}")
-    print(f"Output Shape: {predictions.shape}") 
-    print("Architecture built successfully! ✅")
+    print("Tasks 4.1 & 4.2 Built Successfully! ✅")
+    print(f"Model Name: {model.__class__.__name__}")
+    print(f"Loss Function: {loss_fn.__class__.__name__}")
+    print(f"Optimizer: {optimizer.__class__.__name__}")

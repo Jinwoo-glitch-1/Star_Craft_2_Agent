@@ -1,6 +1,6 @@
 import numpy as np
 from utils.game_reader import StateExtractor
-from utils.feature_scaler import FeatureScaler
+from ai_models.feature_scaler import FeatureScaler
 
 def get_final_ai_input(bot, extractor, scaler) -> np.ndarray:
     """
