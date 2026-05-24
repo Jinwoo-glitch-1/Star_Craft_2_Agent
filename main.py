@@ -6,10 +6,11 @@ from sc2.bot_ai import BotAI
 class MinimalBot(BotAI):
     async def on_step(self, iteration: int):
         if iteration == 0:
-            print("Bot is alive!")
+            print("Bot is alive as Terran!")
 
 run_game(
     maps.get("Simple64"),
-    [Bot(Race.Protoss, MinimalBot()), Computer(Race.Terran, Difficulty.VeryEasy)],
+    # تم التعديل هنا لـ Race.Terran للبوت بتاعك
+    [Bot(Race.Terran, MinimalBot()), Computer(Race.Zerg, Difficulty.VeryEasy)],
     realtime=False
 )
