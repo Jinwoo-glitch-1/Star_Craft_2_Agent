@@ -53,3 +53,37 @@ SC2_Micro_Trainer/
 │   └── lstm_model.py         # Neural Network architecture
 └── bot/
     └── core_bot.py           # The SC2 Bot integration and macro execution logic
+```
+
+## 🚀 Getting Started (For Gamers)
+
+You don't need to be a programmer to use this assistant. Follow these simple steps to start training:
+
+### Prerequisites
+* A standard installation of **StarCraft II**.
+* **Python 3.9+** installed on your system (Make sure to check "Add Python to PATH" during installation).
+
+### Installation & Launch
+1. Download and extract the `SC2_Micro_Trainer` folder to your computer.
+2. Double-click the **`Play_With_Assistant.bat`** file.
+3. The launcher will automatically set up the AI environment (this takes a few moments on the first run).
+4. Follow the on-screen prompts to choose your Match Settings (Race, Difficulty, Map).
+5. StarCraft II will launch automatically. Have fun commanding your army!
+
+> **⚠️ Important Notice:** This tool is designed strictly for **Offline Custom Games & Training**. Do not attempt to use this script in Ranked Multiplayer on Battle.net, as modifying gameplay state against human players violates Blizzard's Terms of Service.
+
+---
+
+## 🛠️ For Developers & AI Enthusiasts
+
+If you wish to explore or modify the brain of the assistant:
+
+* **The Pipeline:** Raw game state data is extracted via `python-sc2`, passed through a custom Min-Max Scaler (handling SC2 macro bounds), and converted into `float32` PyTorch tensors.
+* **The Fallback Mechanism:** Built with a strict safety net. If the PyTorch inference fails or the machine lacks memory, the bot instantly falls back to hardcoded macro rules, ensuring the game never crashes.
+
+---
+
+## 🤝 Acknowledgments
+
+* Powered by the incredible [python-sc2 / burnysc2](https://github.com/BurnySc2/python-sc2) API wrapper.
+* Developed by **Osama Hamdi** - Bridging the gap between Deep Learning and Real-Time Strategy gameplay.
