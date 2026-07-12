@@ -86,4 +86,4 @@ If you wish to explore or modify the brain of the assistant:
 ## 🤝 Acknowledgments
 
 * Powered by the incredible [python-sc2 / burnysc2](https://github.com/BurnySc2/python-sc2) API wrapper.
-* Developed by **Osama Hamdi** - Bridging the gap between Deep Learning and Real-Time Strategy gameplay.
+* Developed by **Osama Hamdi, Mohammed Alaa, Mahmoud Fetouh and Ahmed Goda** - Bridging the gap between Deep Learning and Real-Time Strategy gameplay.
